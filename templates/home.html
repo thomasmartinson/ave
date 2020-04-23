@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='calendar.css') }}">
+{% endblock styles %}
+
+
+{% block content %}
+    <h1>Aquinas Volunteer E-Portal</h1>
+
+    <!-- Calendar -->
+    <!-- adapted from this: https://www.sketchappsources.com/free-source/2676-calendar-template-sketch-freebie-resource.html -->
+    <div class="current-month">{{ month.title }}</div>
+    <div class="calendar">
+        <div class="calendar__header">
+        <div>sun</div>
+        <div>mon</div>
+        <div>tue</div>
+        <div>wed</div>
+        <div>thu</div>
+        <div>fri</div>
+        <div>sat</div>
+        </div>
+        {% for week in month.weeks %}
+            <div class="calendar__week">
+            {% for day in week %}
+                <div class="calendar__day day">
+                    {% if day > 0 and day <= month.last_day %} {{ day }} {% endif %}
+                </div>
+            {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- display next month if less than a week away -->
+    {% if next_month %}
+        <div class="current-month">{{ next_month.title }}</div>
+        <div class="calendar">
+            <div class="calendar__header">
+            <div>sun</div>
+            <div>mon</div>
+            <div>tue</div>
+            <div>wed</div>
+            <div>thu</div>
+            <div>fri</div>
+            <div>sat</div>
+            </div>
+            {% for week in next_month.weeks %}
+                <div class="calendar__week">
+                {% for day in week %}
+                    <div class="calendar__day day">
+                        {% if day > 0 and day <= next_month.last_day %} {{ day }} {% endif %}
+                    </div>
+                {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock content %}
